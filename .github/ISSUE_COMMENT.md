@@ -3,23 +3,53 @@
 This comment is added to new Issues to help contributors quickly request actionable work from Claude using concise, consistent prompts.
 
 ## How to invoke
-- Mention the assistant and a short action: `@claude <action>`.
+- Mention the assistant and a short action:
+```text
+@claude <action>
+```
 - Be specific: include target file(s), desired behavior, and any constraints (style guide, tests, target branch).
 - If you want a particular coding style or reference file, name it (for example: "same coding style as `main.py`").
 
 ## Useful prompt patterns
-- Implementation: `@claude implement <feature> in <file> using the same coding style as main.py`
-- Review: `@claude review the PR and highlight any missing documents or potential failing code`
-- Tests: `@claude add unit tests for <function> in <file> covering edge cases <list>`
-- Bugfix: `@claude reproduce the bug described above and propose a minimal fix in <file>`
-- Refactor: `@claude refactor <module> to <goal> while preserving public API and add tests`
-- Docs: `@claude generate README section with usage examples for <feature>`
-- Security check: `@claude audit code in <path> for XSS/SQL injection and suggest fixes`
+Implementation:
+```text
+@claude implement <feature> in <file> using the same coding style as main.py
+```
+Review:
+```text
+@claude review the PR and highlight any missing documents or potential failing code
+```
+Tests:
+```text
+@claude add unit tests for <function> in <file> covering edge cases <list>
+```
+Bugfix:
+```text
+@claude reproduce the bug described above and propose a minimal fix in <file>
+```
+Refactor:
+```text
+@claude refactor <module> to <goal> while preserving public API and add tests
+```
+Docs:
+```text
+@claude generate README section with usage examples for <feature>
+```
+Security check:
+```text
+@claude audit code in <path> for XSS/SQL injection and suggest fixes
+```
 
 ## Examples (copyable)
-- `@claude implement a calendar widget using the same coding style as main.py`
-- `@claude review the PR and highlight any missing documents or potential failing code`
-- `@claude add unit tests for parse_date in src/utils.py covering invalid and timezone cases`
+```text
+@claude implement a calendar widget using the same coding style as main.py
+```
+```text
+@claude review the PR and highlight any missing documents or potential failing code
+```
+```text
+@claude add unit tests for parse_date in src/utils.py covering invalid and timezone cases
+```
 
 ## Best practices for prompts
 - Provide a minimal reproducible example or point to the exact files/lines.
