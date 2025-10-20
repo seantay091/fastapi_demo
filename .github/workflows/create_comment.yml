@@ -1,0 +1,40 @@
+name: Comment on new issues and PRs
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on new issue
+        if: github.event_name == 'issues'
+        run: |
+          body=$(cat .github/ISSUE_COMMENT.md)
+          # Escape double quotes and newlines for JSON
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\":\"$body\"}" \
+            "${{ github.event.issue.comments_url }}"
+
+      - name: Comment on new pull request
+        if: github.event_name == 'pull_request'
+        run: |
+          body=$(cat .github/PR_COMMENT.md)
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\":\"$body\"}" \
+            "${{ github.event.pull_request.comments_url }}"
