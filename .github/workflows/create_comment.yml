@@ -10,11 +10,15 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
+      # ✅ Step 1: Check out your repo so the .md files are accessible
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # ✅ Step 2: Post comment for new issues
       - name: Comment on new issue
         if: github.event_name == 'issues'
         run: |
           body=$(cat .github/ISSUE_COMMENT.md)
-          # Escape double quotes and newlines for JSON
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
@@ -25,6 +29,7 @@ jobs:
             -d "{\"body\":\"$body\"}" \
             "${{ github.event.issue.comments_url }}"
 
+      # ✅ Step 3: Post comment for new pull requests
       - name: Comment on new pull request
         if: github.event_name == 'pull_request'
         run: |
