@@ -24,15 +24,18 @@ jobs:
         if: github.event_name == 'issues'
         run: |
           body=$(cat .github/ISSUE_COMMENT.md)
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-
+      
           curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"body\":\"$body\"}" \
-            "${{ github.event.issue.comments_url }}"
+            --data-binary @- "${{ github.event.issue.comments_url }}" <<EOF
+          {
+            "body": $(
+              printf '%s' "$body" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
+            )
+          }
+          EOF
+
 
       # ✅ Step 3: Post comment for new pull requests
       - name: Comment on new pull request
